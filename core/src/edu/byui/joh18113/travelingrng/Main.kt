@@ -1,28 +1,22 @@
 package edu.byui.joh18113.travelingrng
 
-import com.badlogic.gdx.ApplicationAdapter
-import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.Game
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.utils.ScreenUtils
 
-class Main : ApplicationAdapter() {
+
+class Main : Game() {
     var batch: SpriteBatch? = null
-    var img: Texture? = null
+    var font: BitmapFont? = null
 
     override fun create() {
         batch = SpriteBatch()
-        img = Texture("badlogic.jpg")
-    }
-
-    override fun render() {
-        ScreenUtils.clear(1f, 1f, 0f, 1f)
-        batch!!.begin()
-        batch!!.draw(img, 0f, 0f)
-        batch!!.end()
+        font = BitmapFont()
+        this.setScreen(MainMenuScreen(this))
     }
 
     override fun dispose() {
         batch!!.dispose()
-        img!!.dispose()
+        font!!.dispose()
     }
 }

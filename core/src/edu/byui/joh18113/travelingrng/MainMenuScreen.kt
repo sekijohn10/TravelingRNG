@@ -2,10 +2,11 @@ package edu.byui.joh18113.travelingrng
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.PerspectiveCamera
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.g3d.Environment
 import com.badlogic.gdx.graphics.g3d.Model
 import com.badlogic.gdx.graphics.g3d.ModelInstance
@@ -18,36 +19,39 @@ import com.badlogic.gdx.math.Vector3
 
 
 class MainMenuScreen(val game: Main) : Screen {
-    var camera : PerspectiveCamera? = null
-    var environment : Environment? = null
-    var camCoontroller : CameraInputController? = null
-    var assets : AssetManager? = null
-    val instances : ArrayList<ModelInstance> = ArrayList()
-    var loading : Boolean? = null
-    var diceBound : Rectangle? = null
-    var coinBound : Rectangle? = null
-    var deckBound : Rectangle? = null
-    var counterBound : Rectangle? = null
-    var settingsBound : Rectangle? = null
-    var touchLocation : Vector3? = null
+    var camera: OrthographicCamera? = null
+    var environment: Environment? = null
+    val instances: ArrayList<ModelInstance> = ArrayList()
+    var loading: Boolean? = null
+    var diceBound: Rectangle? = null
+    var coinBound: Rectangle? = null
+    var deckBound: Rectangle? = null
+    var counterBound: Rectangle? = null
+    var settingsBound: Rectangle? = null
+    var touchLocation: Vector3? = null
 
     override fun show() {
-        camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-        camera?.position?.set(10f, 10f, 10f)
-        camera?.lookAt(0f,0f,0f)
-        camera?.near = 1f
-        camera?.far = 300f
+        camera = OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
         camera?.update()
 
         environment = Environment()
         environment?.set(ColorAttribute(ColorAttribute.AmbientLight, 1f, 1f, 1f, 1f))
         environment?.add(DirectionalLight().set(0.8f, 0.8f, 0.8f, -1.2f, -0.8f, -0.2f))
         environment?.add(DirectionalLight().set(0.8f, 0.8f, 0.8f, 1.2f, 0.8f, 0.2f))
-        camCoontroller = CameraInputController(camera)
-        Gdx.input.inputProcessor = camCoontroller
 
-        assets = AssetManager()
         loading = true
+        diceBound = Rectangle(
+            (-(Gdx.graphics.width.toFloat())/2f) - 5f, ((Gdx.graphics.height.toFloat())/2f) -155f,
+            Assets.diceTexture.width.toFloat() + 10f,
+            Assets.diceTexture.height.toFloat() + 10f
+        )
+        /*coinBound = Rectangle(
+            0f,
+            diceBound!!.height.toFloat(),
+            Assets.coinTexture.width.toFloat() + 10f,
+            Assets.coinTexture.height.toFloat() + 10f
+        )*/
+        touchLocation = Vector3()
 
     }
 
@@ -57,42 +61,53 @@ class MainMenuScreen(val game: Main) : Screen {
 
     private fun handleInput() {
         if (Gdx.input.justTouched()) {
-            camera?.unproject(touchLocation?.set(Gdx.input.getX().toFloat(), Gdx.input.getY().toFloat(), 0f));
+            camera?.unproject(
+                touchLocation?.set(
+                    Gdx.input.getX().toFloat(), Gdx.input.getY().toFloat(), 0f
+                )
+            );
 
             if (diceBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
                 game.setScreen(DiceScreen(game))
                 return
             }
-            if (coinBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+            /*if (coinBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
                 game.setScreen(CoinScreen(game))
                 return
             }
             if (counterBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(CounterScreen(game))
-                return
-            }
-            if (settingsBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(SettingScreen(game))
-                return
-            }
-            if (deckBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(DeckScreen(game))
-                return
-            }
+                 game.setScreen(CounterScreen(game))
+                 return
+             }
+             if (settingsBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+                 game.setScreen(SettingScreen(game))
+                 return
+             }
+             if (deckBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+                 game.setScreen(DeckScreen(game))
+                 return
+             }*/
         }
     }
 
     override fun render(delta: Float) {
-        if (loading!! && assets!!.update()) {
+        if (loading!! && Assets.models.update()) {
             load()
         }
-        camCoontroller?.update()
+        handleInput()
         Gdx.gl.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT or GL20.GL_DEPTH_BUFFER_BIT)
-        game.mBatch?.begin(camera)
-        game.mBatch?.render(instances, environment)
-        game.mBatch?.end()
+        game.sBatch?.setProjectionMatrix(camera?.combined)
+        game.sBatch?.begin()
+        game.sBatch?.draw(
+            Assets.diceTexture, -(Gdx.graphics.width.toFloat())/2f, ((Gdx.graphics.height.toFloat())/2f) -150f
+        )
+        /*game.sBatch?.draw(
+            Assets.coinTexture, 5f, 5f
+        )*/
+        game.sBatch?.end()
     }
+
 
     override fun resize(width: Int, height: Int) {
         //TODO("Not yet implemented")
@@ -111,7 +126,6 @@ class MainMenuScreen(val game: Main) : Screen {
     }
 
     override fun dispose() {
-        assets?.dispose()
         instances.clear()
     }
 

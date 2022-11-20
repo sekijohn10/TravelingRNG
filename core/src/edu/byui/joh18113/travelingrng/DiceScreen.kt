@@ -2,9 +2,7 @@ package edu.byui.joh18113.travelingrng
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.PerspectiveCamera
 import com.badlogic.gdx.graphics.g3d.Environment
 import com.badlogic.gdx.graphics.g3d.Model
@@ -12,13 +10,12 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController
-import com.badlogic.gdx.utils.ScreenUtils
 
 class DiceScreen(val game: Main) : Screen {
     var camera : PerspectiveCamera? = null
     var environment : Environment? = null
     var camCoontroller : CameraInputController? = null
-    var assets : AssetManager? = null
+
     val instances : ArrayList<ModelInstance> = ArrayList()
     var loading : Boolean? = null
 
@@ -37,13 +34,11 @@ class DiceScreen(val game: Main) : Screen {
         camCoontroller = CameraInputController(camera)
         Gdx.input.inputProcessor = camCoontroller
 
-        assets = AssetManager()
-        assets?.load("Dice6/dice.g3db", Model().javaClass)
         loading = true
     }
 
     private fun load() {
-        val die : Model? = assets?.get("Dice6/dice.g3db", Model().javaClass)
+        val die : Model? = Assets.models.get("Dice6/dice.g3db", Model().javaClass)
         val dieInstance = ModelInstance(die)
         instances.add(ModelInstance(dieInstance, dieInstance.transform.scl(0.02f)))
         dieInstance.calculateTransforms()
@@ -51,7 +46,7 @@ class DiceScreen(val game: Main) : Screen {
     }
 
     override fun render(delta: Float) {
-        if (loading!! && assets!!.update()) {
+        if (loading!! && Assets.models.update()) {
             load()
         }
         camCoontroller?.update()
@@ -79,7 +74,7 @@ class DiceScreen(val game: Main) : Screen {
     }
 
     override fun dispose() {
-        //TODO("Not yet implemented")
+        instances.clear()
     }
 
 }

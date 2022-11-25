@@ -16,9 +16,7 @@ object Assets {
     val models: AssetManager = AssetManager()
 
     init {
-        models.load("Coin/PirateCoin.g3db", Model().javaClass)
-        models.load("Deck/cards.g3db", Model().javaClass)
-        models.load("Dice6/dice.g3db", Model().javaClass)
+        models.load("Models.g3db", Model().javaClass)
     }
 
     fun dispose() {

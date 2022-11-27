@@ -12,20 +12,24 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController.AnimationListener
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController
+import kotlin.math.sqrt
 
-class DiceScreen(val game: Main) : Screen , AnimationListener {
-    var camera : PerspectiveCamera? = null
-    var environment : Environment? = null
-    var camController : CameraInputController? = null
 
-    val instances : ArrayList<ModelInstance> = ArrayList()
-    val controllers : ArrayList<AnimationController> = ArrayList()
-    var loading : Boolean? = null
+class DiceScreen(val game: Main) : Screen, AnimationListener {
+    var camera: PerspectiveCamera? = null
+    var environment: Environment? = null
+    var camController: CameraInputController? = null
+    var models: Model? = null
+    val instances: ArrayList<ModelInstance> = ArrayList()
+    val controllers: ArrayList<AnimationController> = ArrayList()
+    var loading: Boolean = false
+    val dice6: Die = Die(6)
+    var numDice = 0
 
     override fun show() {
         camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-        camera?.position?.set(10f, 10f, 10f)
-        camera?.lookAt(0f,0f,0f)
+        camera?.position?.set(10f, 15f, 10f)
+        camera?.lookAt(0f, 0f, 0f)
         camera?.near = 1f
         camera?.far = 300f
         camera?.update()
@@ -37,22 +41,39 @@ class DiceScreen(val game: Main) : Screen , AnimationListener {
         camController = CameraInputController(camera)
 
         Gdx.input.inputProcessor = camController
-
+        numDice = 1
         loading = true
     }
 
     private fun load() {
-        val models = Assets.models.get("Models.g3db", Model().javaClass)
-        val die = ModelInstance(models, "Dice")
+        instances.clear()
+        models = Assets.models.get("Models.g3db", Model().javaClass)
         val table = ModelInstance(models, "Plane")
-        controllers.add(AnimationController(die))
+        var count = 0
+        var x = 0f
+        var z = 0f
+        val int = sqrt(numDice.toDouble())
+        while (count < numDice) {
+            var y = 0
+            while (y < int) {
+                val die = ModelInstance(models, "Dice")
+                die.transform.setToTranslation(z, 0f, x)
+                controllers.add(AnimationController(die))
+                instances.add(die)
+                y++
+                count++
+                x += 5f
+            }
+            x = 0f
+            z += 5f
+        }
+        table.transform.setToTranslation(int.toFloat(), 0f, int.toFloat())
         instances.add(table)
-        instances.add(die)
         loading = false
     }
 
     override fun render(delta: Float) {
-        if (loading!! && Assets.models.update()) {
+        if (loading && Assets.models.update()) {
             load()
         }
         camController?.update()
@@ -62,11 +83,11 @@ class DiceScreen(val game: Main) : Screen , AnimationListener {
         game.mBatch?.render(instances, environment)
         game.mBatch?.end()
 
-            for (c in controllers) {
-                if (Gdx.input.isTouched) {
-                    c.animate("Roll1", 1f)
-                }
-                c.update(delta)
+        for (c in controllers) {
+            if (Gdx.input.isTouched) {
+                c.animate(dice6.roll(), 1f)
+            }
+            c.update(delta)
 
         }
     }
@@ -89,6 +110,9 @@ class DiceScreen(val game: Main) : Screen , AnimationListener {
 
     override fun dispose() {
         instances.clear()
+        controllers.clear()
+        environment?.clear()
+        models?.dispose()
     }
 
     override fun onEnd(animation: AnimationController.AnimationDesc?) {

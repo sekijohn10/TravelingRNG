@@ -13,7 +13,7 @@ object Rand {
     fun getRand(a: Int, b: Int, choice: Int? = null): Int {
         if (choice != null) {
             return if (choice == 1) {
-                SupRand.getRand(a, b)
+                supplied.getRand(a, b)
             } else if (choice == 2 && custom != null) {
                 custom!!.getRand(a, b)
             } else {
@@ -26,7 +26,7 @@ object Rand {
     fun getRand(a: Long, b: Long, choice: Int? = null): Long {
         if (choice != null) {
             return if (choice == 1) {
-                SupRand.getRand(a, b)
+                supplied.getRand(a, b)
             } else if (choice == 2 && custom != null) {
                 custom!!.getRand(a, b)
             } else {

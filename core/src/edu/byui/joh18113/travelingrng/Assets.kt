@@ -9,10 +9,11 @@ object Assets {
 
 
     val diceTexture: Texture = Texture(Gdx.files.internal("Text/RollDice.png"))
-    val settingTexture: Texture = Texture(Gdx.files.internal("Text/Setting.png"))
-    val deckTexture: Texture = Texture(Gdx.files.internal("Text/DrawCard.png"))
-    val counterTexture: Texture = Texture(Gdx.files.internal("Text/NumberCounter1.png"))
-    val coinTexture: Texture = Texture(Gdx.files.internal("Text/FlipACoin1.png"))
+    val settingTexture: Texture = Texture(Gdx.files.internal("Text/Settings.png"))
+    val deckTexture: Texture = Texture(Gdx.files.internal("Text/DrawCards.png"))
+    val counterTexture: Texture = Texture(Gdx.files.internal("Text/Counter.png"))
+    val coinTexture: Texture = Texture(Gdx.files.internal("Text/FlipCoins.png"))
+    val titleTexture: Texture = Texture(Gdx.files.internal("Text/TravelingRNG.png"))
     val models: AssetManager = AssetManager()
 
     init {
@@ -26,6 +27,7 @@ object Assets {
         deckTexture.dispose()
         counterTexture.dispose()
         coinTexture.dispose()
+        titleTexture.dispose()
     }
 }
 

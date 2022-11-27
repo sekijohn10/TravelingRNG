@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector3
 
 class MainMenuScreen(val game: Main) : Screen {
     var camera: OrthographicCamera? = null
-    var titleBound : Rectangle? = null
+    var titleBound: Rectangle? = null
     var diceBound: Rectangle? = null
     var coinBound: Rectangle? = null
     var deckBound: Rectangle? = null
@@ -30,7 +30,7 @@ class MainMenuScreen(val game: Main) : Screen {
         )
         diceBound = Rectangle(
             (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
-            titleBound!!.y -155f,
+            titleBound!!.y - 155f,
             Assets.diceTexture.width.toFloat() + 10f,
             Assets.diceTexture.height.toFloat() + 10f
         )
@@ -79,17 +79,17 @@ class MainMenuScreen(val game: Main) : Screen {
                 return
             }
             if (counterBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                 game.setScreen(CounterScreen(game))
-                 return
-             }
-             if (settingsBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                 game.setScreen(SettingScreen(game))
-                 return
-             }
-             if (deckBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                 game.setScreen(DeckScreen(game))
-                 return
-             }
+                game.setScreen(CounterScreen(game))
+                return
+            }
+            if (settingsBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+                game.setScreen(SettingScreen(game))
+                return
+            }
+            if (deckBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+                game.setScreen(DeckScreen(game))
+                return
+            }
         }
     }
 
@@ -100,34 +100,22 @@ class MainMenuScreen(val game: Main) : Screen {
         game.sBatch?.setProjectionMatrix(camera?.combined)
         game.sBatch?.begin()
         game.sBatch?.draw(
-            Assets.titleTexture,
-            titleBound!!.x + 2.5f,
-            titleBound!!.y + 2.5f
+            Assets.titleTexture, titleBound!!.x + 2.5f, titleBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            Assets.diceTexture,
-            diceBound!!.x + 2.5f,
-            diceBound!!.y + 2.5f
+            Assets.diceTexture, diceBound!!.x + 2.5f, diceBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            Assets.coinTexture,
-            coinBound!!.x + 2.5f,
-            coinBound!!.y + 2.5f
+            Assets.coinTexture, coinBound!!.x + 2.5f, coinBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            Assets.deckTexture,
-            deckBound!!.x + 2.5f,
-            deckBound!!.y + 2.5f
+            Assets.deckTexture, deckBound!!.x + 2.5f, deckBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            Assets.counterTexture,
-            counterBound!!.x + 2.5f,
-            counterBound!!.y + 2.5f
+            Assets.counterTexture, counterBound!!.x + 2.5f, counterBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            Assets.settingTexture,
-            settingsBound!!.x + 2.5f,
-            settingsBound!!.y + 2.5f
+            Assets.settingTexture, settingsBound!!.x + 2.5f, settingsBound!!.y + 2.5f
         )
         game.sBatch?.end()
     }

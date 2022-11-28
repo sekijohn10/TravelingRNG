@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g3d.Model
 
 object Assets {
 
-
     val diceTexture: Texture = Texture(Gdx.files.internal("Text/RollDice.png"))
     val settingTexture: Texture = Texture(Gdx.files.internal("Text/Settings.png"))
     val deckTexture: Texture = Texture(Gdx.files.internal("Text/DrawCards.png"))

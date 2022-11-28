@@ -21,9 +21,10 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
     var models: Model? = null
     val instances: ArrayList<ModelInstance> = ArrayList()
     val controllers: ArrayList<AnimationController> = ArrayList()
-    var loading: Boolean? = null
+    var loading: Boolean = true
     val coin: Coin = Coin()
     var numCoins = 0
+    var table : ModelInstance? = null
 
     override fun show() {
         camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
@@ -45,10 +46,8 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
         loading = true
     }
 
-    private fun load() {
+    private fun updateCoins() {
         instances.clear()
-        models = Assets.models.get("Models.g3db", Model().javaClass)
-        val table = ModelInstance(models, "Plane")
         var count = 0
         var x = 0f
         var z = 0f
@@ -67,13 +66,17 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
             x = 0f
             z += 5f
         }
-        table.transform.setToTranslation(int.toFloat(), 0f, int.toFloat())
-        instances.add(table)
+    }
+
+    private fun load() {
+        models = game.assets.models.get("Models.g3db", Model().javaClass)
+        table = ModelInstance(models, "Plane")
+        updateCoins()
         loading = false
     }
 
     override fun render(delta: Float) {
-        if (loading!! && Assets.models.update()) {
+        if (loading && Assets.models.update()) {
             load()
         }
         camController?.update()
@@ -81,6 +84,7 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT or GL20.GL_DEPTH_BUFFER_BIT)
         game.mBatch?.begin(camera)
         game.mBatch?.render(instances, environment)
+        if (!loading) game.mBatch?.render(table, environment)
         game.mBatch?.end()
 
         for (c in controllers) {

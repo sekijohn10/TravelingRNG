@@ -1,6 +1,7 @@
 package edu.byui.joh18113.travelingrng
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -91,6 +92,7 @@ class CounterScreen(val game: Main) : Screen {
                 return
             }
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.K)) game.screen = MainMenuScreen(game)
     }
 
     override fun render(delta: Float) {

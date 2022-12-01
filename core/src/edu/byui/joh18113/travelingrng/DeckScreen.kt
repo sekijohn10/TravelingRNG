@@ -24,6 +24,7 @@ class DeckScreen(val game: Main) : Screen {
     val controllers: ArrayList<AnimationController> = ArrayList()
     var loading: Boolean = true
     val deck = Deck()
+    var time = 0f
 
     override fun show() {
         camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
@@ -79,9 +80,15 @@ class DeckScreen(val game: Main) : Screen {
     }
 
     override fun render(delta: Float) {
-        if (loading && Assets.models.update()) load()
+        if (loading && Assets.models.update()) {
+            load()
+        }
+        time += delta
 
-        if (!loading && Gdx.input.isTouched) drawCard()
+        if (!loading && Gdx.input.isKeyPressed(Input.Keys.SPACE) && (time > 0.25f)) {
+            drawCard()
+            time = 0f
+        }
 
         camController?.update()
         Gdx.gl.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
@@ -91,6 +98,7 @@ class DeckScreen(val game: Main) : Screen {
         game.mBatch?.render(instances, environment)
         if (!loading) game.mBatch?.render(table, environment)
         game.mBatch?.end()
+        if (Gdx.input.isKeyPressed(Input.Keys.K)) game.screen = MainMenuScreen(game)
 
     }
 
@@ -103,11 +111,10 @@ class DeckScreen(val game: Main) : Screen {
     }
 
     override fun resume() {
-        //TODO("Not yet implemented")
     }
 
     override fun hide() {
-        //TODO("Not yet implemented")
+
     }
 
     override fun dispose() {

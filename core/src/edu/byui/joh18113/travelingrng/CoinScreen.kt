@@ -95,7 +95,7 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
             c.update(delta)
 
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) game.screen = MainMenuScreen(game)
+        if (Gdx.input.isKeyPressed(Input.Keys.K)) game.screen = MainMenuScreen(game)
     }
 
     override fun resize(width: Int, height: Int) {
@@ -111,7 +111,6 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
     }
 
     override fun hide() {
-        //TODO("Not yet implemented")
     }
 
     override fun dispose() {

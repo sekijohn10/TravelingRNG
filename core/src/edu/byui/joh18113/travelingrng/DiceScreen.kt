@@ -44,7 +44,7 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
         camController = CameraInputController(camera)
 
         Gdx.input.inputProcessor = camController
-        numDice = 49
+        numDice = 1
         loading = true
     }
 
@@ -96,6 +96,7 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
             c.update(delta)
 
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.K)) game.screen = MainMenuScreen(game)
     }
 
     override fun resize(width: Int, height: Int) {
@@ -111,7 +112,6 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
     }
 
     override fun hide() {
-        //TODO("Not yet implemented")
     }
 
     override fun dispose() {

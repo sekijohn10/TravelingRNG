@@ -122,7 +122,6 @@ class MainMenuScreen(val game: Main) : Screen {
 
 
     override fun resize(width: Int, height: Int) {
-        //TODO("Not yet implemented")
     }
 
     override fun pause() {

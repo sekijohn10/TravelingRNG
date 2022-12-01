@@ -1,6 +1,8 @@
 package edu.byui.joh18113.travelingrng
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.PerspectiveCamera
@@ -42,7 +44,7 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
         camController = CameraInputController(camera)
 
         Gdx.input.inputProcessor = camController
-        numDice = 1
+        numDice = 49
         loading = true
     }
 
@@ -69,7 +71,7 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
     }
 
     private fun load() {
-        models = game.assets.models.get("Models.g3db", Model().javaClass)
+        models = Assets.models.get("Models.g3db", Model().javaClass)
         table = ModelInstance(models, "Plane")
         updateDice()
         loading = false

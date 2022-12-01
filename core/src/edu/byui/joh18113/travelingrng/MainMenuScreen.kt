@@ -25,38 +25,38 @@ class MainMenuScreen(val game: Main) : Screen {
         titleBound = Rectangle(
             (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
             ((Gdx.graphics.height.toFloat()) / 2f) - 175f,
-            game.assets.titleTexture.width.toFloat() + 10f,
-            game.assets.titleTexture.height.toFloat() + 10f
+            Assets.titleTexture.width.toFloat() + 10f,
+            Assets.titleTexture.height.toFloat() + 10f
         )
         diceBound = Rectangle(
             (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
             titleBound!!.y - 155f,
-            game.assets.diceTexture.width.toFloat() + 10f,
-            game.assets.diceTexture.height.toFloat() + 10f
+            Assets.diceTexture.width.toFloat() + 10f,
+            Assets.diceTexture.height.toFloat() + 10f
         )
         coinBound = Rectangle(
             (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
             diceBound!!.y - 155f,
-            game.assets.coinTexture.width.toFloat() + 10f,
-            game.assets.coinTexture.height.toFloat() + 10f
+            Assets.coinTexture.width.toFloat() + 10f,
+            Assets.coinTexture.height.toFloat() + 10f
         )
         deckBound = Rectangle(
             (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
             coinBound!!.y - 155f,
-            game.assets.coinTexture.width.toFloat() + 10f,
-            game.assets.coinTexture.height.toFloat() + 10f
+            Assets.coinTexture.width.toFloat() + 10f,
+            Assets.coinTexture.height.toFloat() + 10f
         )
         counterBound = Rectangle(
             (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
             deckBound!!.y - 155f,
-            game.assets.coinTexture.width.toFloat() + 10f,
-            game.assets.coinTexture.height.toFloat() + 10f
+            Assets.coinTexture.width.toFloat() + 10f,
+            Assets.coinTexture.height.toFloat() + 10f
         )
         settingsBound = Rectangle(
             (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
             counterBound!!.y - 155f,
-            game.assets.coinTexture.width.toFloat() + 10f,
-            game.assets.coinTexture.height.toFloat() + 10f
+            Assets.coinTexture.width.toFloat() + 10f,
+            Assets.coinTexture.height.toFloat() + 10f
         )
         touchLocation = Vector3()
 
@@ -100,22 +100,22 @@ class MainMenuScreen(val game: Main) : Screen {
         game.sBatch?.setProjectionMatrix(camera?.combined)
         game.sBatch?.begin()
         game.sBatch?.draw(
-            game.assets.titleTexture, titleBound!!.x + 2.5f, titleBound!!.y + 2.5f
+            Assets.titleTexture, titleBound!!.x + 2.5f, titleBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            game.assets.diceTexture, diceBound!!.x + 2.5f, diceBound!!.y + 2.5f
+            Assets.diceTexture, diceBound!!.x + 2.5f, diceBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            game.assets.coinTexture, coinBound!!.x + 2.5f, coinBound!!.y + 2.5f
+            Assets.coinTexture, coinBound!!.x + 2.5f, coinBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            game.assets.deckTexture, deckBound!!.x + 2.5f, deckBound!!.y + 2.5f
+            Assets.deckTexture, deckBound!!.x + 2.5f, deckBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            game.assets.counterTexture, counterBound!!.x + 2.5f, counterBound!!.y + 2.5f
+            Assets.counterTexture, counterBound!!.x + 2.5f, counterBound!!.y + 2.5f
         )
         game.sBatch?.draw(
-            game.assets.settingTexture, settingsBound!!.x + 2.5f, settingsBound!!.y + 2.5f
+            Assets.settingTexture, settingsBound!!.x + 2.5f, settingsBound!!.y + 2.5f
         )
         game.sBatch?.end()
     }

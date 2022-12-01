@@ -23,19 +23,6 @@ object Rand {
         return ran.nextInt(a, b + 1)
     }
 
-    fun getRand(a: Long, b: Long, choice: Int? = null): Long {
-        if (choice != null) {
-            return if (choice == 1) {
-                supplied.getRand(a, b)
-            } else if (choice == 2 && custom != null) {
-                custom!!.getRand(a, b)
-            } else {
-                ran.nextLong(a, b + 1)
-            }
-        }
-        return ran.nextLong(a, b + 1)
-
-    }
 
 
 }

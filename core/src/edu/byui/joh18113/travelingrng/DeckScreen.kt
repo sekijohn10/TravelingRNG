@@ -1,6 +1,7 @@
 package edu.byui.joh18113.travelingrng
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.PerspectiveCamera
@@ -57,7 +58,7 @@ class DeckScreen(val game: Main) : Screen {
     }
 
     private fun load() {
-        models = game.assets.models.get("Models.g3db", Model().javaClass)
+        models = Assets.models.get("Models.g3db", Model().javaClass)
         fillDeck()
         table = ModelInstance(models, "Plane")
         loading = false
@@ -70,13 +71,15 @@ class DeckScreen(val game: Main) : Screen {
         if (deck.deck.isEmpty()) deck.reset()
         val card = ModelInstance(models, deck.drawCard().value)
         card.transform.setToTranslation(
-            -10f + (1.1f * (instances.size % 10)), 0f + (0.025f * (instances.size % 10)), 5f
+            -10f + (1.1f * (instances.size % 5)) + (20f * (instances.size / 5) - (instances.size / 10 * 40f)),
+            0f + (0.025f * (instances.size % 10)),
+            5f + (10f * (instances.size / 10))
         )
         instances.add(card)
     }
 
     override fun render(delta: Float) {
-        if (loading && game.assets.models.update()) load()
+        if (loading && Assets.models.update()) load()
 
         if (!loading && Gdx.input.isTouched) drawCard()
 
@@ -88,6 +91,7 @@ class DeckScreen(val game: Main) : Screen {
         game.mBatch?.render(instances, environment)
         if (!loading) game.mBatch?.render(table, environment)
         game.mBatch?.end()
+
     }
 
     override fun resize(width: Int, height: Int) {

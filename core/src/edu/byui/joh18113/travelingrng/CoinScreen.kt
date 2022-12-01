@@ -1,6 +1,7 @@
 package edu.byui.joh18113.travelingrng
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.PerspectiveCamera
@@ -69,7 +70,7 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
     }
 
     private fun load() {
-        models = game.assets.models.get("Models.g3db", Model().javaClass)
+        models = Assets.models.get("Models.g3db", Model().javaClass)
         table = ModelInstance(models, "Plane")
         updateCoins()
         loading = false
@@ -94,6 +95,7 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
             c.update(delta)
 
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) game.screen = MainMenuScreen(game)
     }
 
     override fun resize(width: Int, height: Int) {

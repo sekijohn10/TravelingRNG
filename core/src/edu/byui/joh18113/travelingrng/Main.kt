@@ -9,7 +9,6 @@ class Main : Game() {
     var font: BitmapFont? = null
     var mBatch : ModelBatch? = null
     var sBatch : SpriteBatch? = null
-    val assets = Assets
 
     override fun create() {
         font = BitmapFont()
@@ -22,7 +21,7 @@ class Main : Game() {
         font!!.dispose()
         mBatch!!.dispose()
         sBatch!!.dispose()
-        assets.dispose()
+        Assets.dispose()
         super.dispose()
     }
 }

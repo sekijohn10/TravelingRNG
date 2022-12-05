@@ -28,11 +28,12 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
     val dice6: Die = Die(6)
     var numDice = 0
     var table: ModelInstance? = null
+    var time = 0f
 
     override fun show() {
         camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-        camera?.position?.set(10f, 15f, 10f)
-        camera?.lookAt(0f, 0f, 0f)
+        camera?.position?.set(35f, 35f, 10f)
+        camera?.lookAt(12f, 0f, 9f)
         camera?.near = 1f
         camera?.far = 300f
         camera?.update()
@@ -44,7 +45,7 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
         camController = CameraInputController(camera)
 
         Gdx.input.inputProcessor = camController
-        numDice = 1
+        numDice = Settings.numDice
         loading = true
     }
 
@@ -56,7 +57,7 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
         val int = sqrt(numDice.toDouble())
         while (count < numDice) {
             var y = 0
-            while (y < int) {
+            while (y < int && count < numDice) {
                 val coin = ModelInstance(models, "Dice")
                 coin.transform.setToTranslation(z, 0f, x)
                 controllers.add(AnimationController(coin))
@@ -88,14 +89,15 @@ class DiceScreen(val game: Main) : Screen, AnimationListener {
         game.mBatch?.render(instances, environment)
         if (!loading) game.mBatch?.render(table, environment)
         game.mBatch?.end()
+        time += delta
 
-        for (c in controllers) {
-            if (Gdx.input.isTouched) {
+        if (!loading && Gdx.input.isKeyPressed(Input.Keys.SPACE) && (time > 0.25f)) {
+            for (c in controllers) {
                 c.animate(dice6.roll(), 1f)
             }
-            c.update(delta)
-
+            time = 0f
         }
+        for (c in controllers) c.update(delta)
         if (Gdx.input.isKeyPressed(Input.Keys.K)) game.screen = MainMenuScreen(game)
     }
 

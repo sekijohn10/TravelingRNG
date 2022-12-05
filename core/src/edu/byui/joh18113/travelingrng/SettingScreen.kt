@@ -3,63 +3,45 @@ package edu.byui.joh18113.travelingrng
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 
 
 class SettingScreen(val game: Main) : Screen {
     var camera: OrthographicCamera? = null
-    var titleBound: Rectangle? = null
-    var diceBound: Rectangle? = null
-    var coinBound: Rectangle? = null
-    var deckBound: Rectangle? = null
-    var counterBound: Rectangle? = null
-    var settingsBound: Rectangle? = null
+    var numDiceBound: Rectangle? = null
+    var numCoinsBound: Rectangle? = null
+    var randomBound: Rectangle? = null
     var touchLocation: Vector3? = null
+    var generator: FreeTypeFontGenerator? = null
+    var parameter: FreeTypeFontGenerator.FreeTypeFontParameter? = null
+    var font: BitmapFont? = null
+
 
     override fun show() {
         camera = OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
         camera?.update()
 
-        titleBound = Rectangle(
-            (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
-            ((Gdx.graphics.height.toFloat()) / 2f) - 175f,
-            Assets.titleTexture.width.toFloat() + 10f,
-            Assets.titleTexture.height.toFloat() + 10f
+        numDiceBound = Rectangle(
+            0f, ((Gdx.graphics.height.toFloat()) / 2f) - 150f, 200f, 40f
         )
-        diceBound = Rectangle(
-            (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
-            titleBound!!.y - 155f,
-            Assets.diceTexture.width.toFloat() + 10f,
-            Assets.diceTexture.height.toFloat() + 10f
+        numCoinsBound = Rectangle(
+            0f, numDiceBound!!.y - 100f, 200f, 40f
         )
-        coinBound = Rectangle(
-            (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
-            diceBound!!.y - 155f,
-            Assets.coinTexture.width.toFloat() + 10f,
-            Assets.coinTexture.height.toFloat() + 10f
-        )
-        deckBound = Rectangle(
-            (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
-            coinBound!!.y - 155f,
-            Assets.coinTexture.width.toFloat() + 10f,
-            Assets.coinTexture.height.toFloat() + 10f
-        )
-        counterBound = Rectangle(
-            (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
-            deckBound!!.y - 155f,
-            Assets.coinTexture.width.toFloat() + 10f,
-            Assets.coinTexture.height.toFloat() + 10f
-        )
-        settingsBound = Rectangle(
-            (-(Gdx.graphics.width.toFloat()) / 2f) - 5f,
-            counterBound!!.y - 155f,
-            Assets.coinTexture.width.toFloat() + 10f,
-            Assets.coinTexture.height.toFloat() + 10f
+        randomBound = Rectangle(
+            -50f, numCoinsBound!!.y - 100f, 500f, 40f
         )
         touchLocation = Vector3()
+        generator = FreeTypeFontGenerator(Gdx.files.internal("Text/MyFont.ttf"))
+        parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
+        parameter?.size = 36
+        parameter?.color = Color.SALMON
+        font = generator?.generateFont(parameter)
 
     }
 
@@ -67,29 +49,23 @@ class SettingScreen(val game: Main) : Screen {
         if (Gdx.input.justTouched()) {
             camera?.unproject(
                 touchLocation?.set(
-                    Gdx.input.getX().toFloat(), Gdx.input.getY().toFloat(), 0f
+                    Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f
                 )
-            );
+            )
 
-            if (diceBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(DiceScreen(game))
-                return
+            if (numDiceBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+                if (touchLocation!!.x < (numDiceBound!!.x + numDiceBound!!.width / 2) && Settings.numDice > 1) Settings.numDice -= 1
+                else if (touchLocation!!.x > (numDiceBound!!.x + numDiceBound!!.width / 2)) Settings.numDice += 1
             }
-            if (coinBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(CoinScreen(game))
-                return
+            if (numCoinsBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+                if (touchLocation!!.x < (numCoinsBound!!.x + numCoinsBound!!.width / 2) && Settings.numCoin > 1) Settings.numCoin -= 1
+                else if (touchLocation!!.x > (numCoinsBound!!.x + numCoinsBound!!.width / 2)) Settings.numCoin += 1
             }
-            if (counterBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(CounterScreen(game))
-                return
-            }
-            if (settingsBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(SettingScreen(game))
-                return
-            }
-            if (deckBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
-                game.setScreen(DeckScreen(game))
-                return
+            if (randomBound!!.contains(touchLocation!!.x, touchLocation!!.y)) {
+                if (touchLocation!!.x < (randomBound!!.x + randomBound!!.width / 2)) Settings.usingRand =
+                    1
+                else if (touchLocation!!.x > (randomBound!!.x + randomBound!!.width / 2)) Settings.usingRand =
+                    2
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.K)) game.screen = MainMenuScreen(game)
@@ -99,27 +75,88 @@ class SettingScreen(val game: Main) : Screen {
         handleInput()
         Gdx.gl.glViewport(0, 0, Gdx.graphics.width, Gdx.graphics.height)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT or GL20.GL_DEPTH_BUFFER_BIT)
-        game.sBatch?.setProjectionMatrix(camera?.combined)
+        game.sBatch?.projectionMatrix = camera?.combined
         game.sBatch?.begin()
-        game.sBatch?.draw(
-            Assets.titleTexture, titleBound!!.x + 2.5f, titleBound!!.y + 2.5f
+        font?.draw(
+            game.sBatch,
+            "Number of Dice",
+            -300f + 2.5f,
+            numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        game.sBatch?.draw(
-            Assets.diceTexture, diceBound!!.x + 2.5f, diceBound!!.y + 2.5f
+        font?.draw(
+            game.sBatch, "Less", numDiceBound!!.x, numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        game.sBatch?.draw(
-            Assets.coinTexture, coinBound!!.x + 2.5f, coinBound!!.y + 2.5f
+        font?.draw(
+            game.sBatch,
+            "More",
+            numDiceBound!!.x + numDiceBound!!.width / 2,
+            numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        game.sBatch?.draw(
-            Assets.deckTexture, deckBound!!.x + 2.5f, deckBound!!.y + 2.5f
+        font?.draw(
+            game.sBatch,
+            Settings.numDice.toString(),
+            numDiceBound!!.x + numDiceBound!!.width,
+            numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        game.sBatch?.draw(
-            Assets.counterTexture, counterBound!!.x + 2.5f, counterBound!!.y + 2.5f
+        font?.draw(
+            game.sBatch,
+            "Number of Coins",
+            -300f + 2.5f,
+            numCoinsBound!!.y + numCoinsBound!!.height - 2f
         )
-        game.sBatch?.draw(
-            Assets.settingTexture, settingsBound!!.x + 2.5f, settingsBound!!.y + 2.5f
+        font?.draw(
+            game.sBatch, "Less", numCoinsBound!!.x, numCoinsBound!!.y + numCoinsBound!!.height - 2f
+        )
+        font?.draw(
+            game.sBatch,
+            "More",
+            numCoinsBound!!.x + numCoinsBound!!.width / 2,
+            numCoinsBound!!.y + numCoinsBound!!.height - 2f
+        )
+        font?.draw(
+            game.sBatch,
+            Settings.numCoin.toString(),
+            numCoinsBound!!.x + numCoinsBound!!.width,
+            numCoinsBound!!.y + numCoinsBound!!.height - 2f
+        )
+        font?.draw(
+            game.sBatch,
+            "Which random generator",
+            -500f + 2.5f,
+            randomBound!!.y + randomBound!!.height - 2f
+        )
+        font?.draw(
+            game.sBatch,
+            "System_Default",
+            randomBound!!.x,
+            randomBound!!.y + randomBound!!.height - 2f
+        )
+        font?.draw(
+            game.sBatch,
+            "TravelingRNG",
+            randomBound!!.x + randomBound!!.width / 2,
+            randomBound!!.y + randomBound!!.height - 2f
+        )
+        font?.draw(
+            game.sBatch,
+            if (Settings.usingRand == 1) "System_Default" else "TravelingRNG",
+            randomBound!!.x - 25f,
+            randomBound!!.y + randomBound!!.height - 2f - 50f
+        )
+        font?.draw(
+            game.sBatch,
+            "Press 'K' to go back to Main Menu on any screen",
+            -500f + 2.5f,
+            randomBound!!.y - 100f
+        )
+        font?.draw(
+            game.sBatch,
+            "Press 'SPACE' for roll, flip, and draw actions",
+            -500f + 2.5f,
+            randomBound!!.y - 200f
         )
         game.sBatch?.end()
+
     }
 
 
@@ -140,7 +177,7 @@ class SettingScreen(val game: Main) : Screen {
     }
 
     override fun dispose() {
-
+        generator?.dispose()
     }
 
 }

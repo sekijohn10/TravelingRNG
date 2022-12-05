@@ -26,10 +26,11 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
     val coin: Coin = Coin()
     var numCoins = 0
     var table : ModelInstance? = null
+    var time = 0f
 
     override fun show() {
         camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-        camera?.position?.set(10f, 15f, 10f)
+        camera?.position?.set(5f, 10f, 5f)
         camera?.lookAt(0f, 0f, 0f)
         camera?.near = 1f
         camera?.far = 300f
@@ -43,7 +44,7 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
 
         Gdx.input.inputProcessor = camController
 
-        numCoins = 1
+        numCoins = Settings.numCoin
         loading = true
     }
 
@@ -55,7 +56,7 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
         val int = sqrt(numCoins.toDouble())
         while (count < numCoins) {
             var y = 0
-            while (y < int) {
+            while (y < int && count < numCoins) {
                 val coin = ModelInstance(models, "Coin")
                 coin.transform.setToTranslation(z, 0f, x)
                 controllers.add(AnimationController(coin))
@@ -87,14 +88,15 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
         game.mBatch?.render(instances, environment)
         if (!loading) game.mBatch?.render(table, environment)
         game.mBatch?.end()
+        time += delta
 
-        for (c in controllers) {
-            if (Gdx.input.isTouched) {
+        if (!loading && Gdx.input.isKeyPressed(Input.Keys.SPACE) && (time > 0.25f)) {
+            for (c in controllers) {
                 c.animate(coin.flipCoin(), 1f)
             }
-            c.update(delta)
-
+            time = 0f
         }
+        for (c in controllers) c.update(delta)
         if (Gdx.input.isKeyPressed(Input.Keys.K)) game.screen = MainMenuScreen(game)
     }
 

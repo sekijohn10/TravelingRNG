@@ -17,13 +17,13 @@ class DeckScreen(val game: Main) : Screen {
     private var camera: PerspectiveCamera? = null
     private var environment: Environment? = null
     private var camController: CameraInputController? = null
-    var models: Model? = null
+    private var models: Model? = null
     private val deckModel: ArrayList<ModelInstance> = ArrayList()
     private val instances: ArrayList<ModelInstance> = ArrayList()
-    var table: ModelInstance? = null
+    private var table: ModelInstance? = null
     private val controllers: ArrayList<AnimationController> = ArrayList()
-    var loading: Boolean = true
-    val deck = Deck()
+    private var loading: Boolean = true
+    private val deck = Deck()
     private var time = 0f
 
     override fun show() {
@@ -69,7 +69,7 @@ class DeckScreen(val game: Main) : Screen {
     private fun drawCard() {
         if (deckModel.isEmpty()) fillDeck()
         deckModel.removeLast()
-        if (deck.deck.isEmpty()) deck.reset()
+        if (deck.isEmpty()) deck.reset()
         val card = ModelInstance(models, deck.drawCard().value)
         card.transform.setToTranslation(
             -10f + (1.1f * (instances.size % 5)) + (20f * (instances.size / 5) - (instances.size / 10 * 40f)),

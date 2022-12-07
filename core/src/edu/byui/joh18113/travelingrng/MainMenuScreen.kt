@@ -8,16 +8,17 @@ import com.badlogic.gdx.graphics.PerspectiveCamera
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
 
-
 class MainMenuScreen(val game: Main) : Screen {
-    var camera: OrthographicCamera? = null
-    var titleBound: Rectangle? = null
-    var diceBound: Rectangle? = null
-    var coinBound: Rectangle? = null
-    var deckBound: Rectangle? = null
-    var counterBound: Rectangle? = null
-    var settingsBound: Rectangle? = null
-    var touchLocation: Vector3? = null
+    private var camera: OrthographicCamera? = null
+
+    private var titleBound: Rectangle? = null
+    private var diceBound: Rectangle? = null
+    private var coinBound: Rectangle? = null
+    private var deckBound: Rectangle? = null
+    private var counterBound: Rectangle? = null
+    private var settingsBound: Rectangle? = null
+
+    private var touchLocation: Vector3? = null
 
     override fun show() {
         camera = OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())

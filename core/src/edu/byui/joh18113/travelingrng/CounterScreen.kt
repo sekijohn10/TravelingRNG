@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
 
-
 class CounterScreen(val game: Main) : Screen {
     private var camera: OrthographicCamera? = null
 

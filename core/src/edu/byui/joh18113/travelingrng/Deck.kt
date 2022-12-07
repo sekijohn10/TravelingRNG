@@ -1,7 +1,7 @@
 package edu.byui.joh18113.travelingrng
 
 class Deck {
-    var deck: ArrayDeque<Card> = buildDeck()
+    private var deck: ArrayDeque<Card> = buildDeck()
     fun reset() {
         deck.clear()
         deck.addAll(buildDeck())
@@ -10,6 +10,10 @@ class Deck {
     fun shuffle() {
         //TODO
         deck.shuffle()
+    }
+
+    fun isEmpty(): Boolean {
+        return deck.isEmpty()
     }
 
     fun drawCard(): Card {

@@ -15,18 +15,17 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController.AnimationListener
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController
 import kotlin.math.sqrt
 
-
 class DiceScreen(val game: Main) : Screen, AnimationListener {
     private var camera: PerspectiveCamera? = null
     private var environment: Environment? = null
     private var camController: CameraInputController? = null
-    var models: Model? = null
+    private var models: Model? = null
     private val instances: ArrayList<ModelInstance> = ArrayList()
     private val controllers: ArrayList<AnimationController> = ArrayList()
-    var loading: Boolean = true
+    private var loading: Boolean = true
     private val dice6: Die = Die(6)
     private var numDice = 0
-    var table: ModelInstance? = null
+    private var table: ModelInstance? = null
     private var time = 0f
 
     override fun show() {

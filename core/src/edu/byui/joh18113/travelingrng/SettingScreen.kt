@@ -13,15 +13,20 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 
 
 class SettingScreen(val game: Main) : Screen {
-    var camera: OrthographicCamera? = null
-    var numDiceBound: Rectangle? = null
-    var numCoinsBound: Rectangle? = null
-    var randomBound: Rectangle? = null
-    var touchLocation: Vector3? = null
-    var generator: FreeTypeFontGenerator? = null
-    var parameter: FreeTypeFontGenerator.FreeTypeFontParameter? = null
-    var font: BitmapFont? = null
+    private var camera: OrthographicCamera? = null
 
+    private var numDiceBound: Rectangle? = null
+    private var numCoinsBound: Rectangle? = null
+    private var randomBound: Rectangle? = null
+
+    private var touchLocation: Vector3? = null
+
+    private var generator: FreeTypeFontGenerator? = null
+    private var parameter: FreeTypeFontGenerator.FreeTypeFontParameter? = null
+    private var fontWhite: BitmapFont? = null
+    private var fontRed: BitmapFont? = null
+    private var fontGreen: BitmapFont? = null
+    private var fontCyan: BitmapFont? = null
 
     override fun show() {
         camera = OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
@@ -36,13 +41,20 @@ class SettingScreen(val game: Main) : Screen {
         randomBound = Rectangle(
             -50f, numCoinsBound!!.y - 100f, 500f, 40f
         )
+
         touchLocation = Vector3()
-        generator = FreeTypeFontGenerator(Gdx.files.internal("Text/MyFont.ttf"))
+
+        generator = FreeTypeFontGenerator(Gdx.files.internal("Text/MyFont.TTF"))
         parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
         parameter?.size = 36
-        parameter?.color = Color.SALMON
-        font = generator?.generateFont(parameter)
-
+        parameter?.color = Color.RED
+        fontRed = generator?.generateFont(parameter)
+        parameter?.color = Color.GREEN
+        fontGreen = generator?.generateFont(parameter)
+        parameter?.color = Color.WHITE
+        fontWhite = generator?.generateFont(parameter)
+        parameter?.color = Color.CYAN
+        fontCyan = generator?.generateFont(parameter)
     }
 
     private fun handleInput() {
@@ -77,79 +89,79 @@ class SettingScreen(val game: Main) : Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT or GL20.GL_DEPTH_BUFFER_BIT)
         game.sBatch?.projectionMatrix = camera?.combined
         game.sBatch?.begin()
-        font?.draw(
+        fontWhite?.draw(
             game.sBatch,
             "Number of Dice",
             -300f + 2.5f,
             numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        font?.draw(
+        fontRed?.draw(
             game.sBatch, "Less", numDiceBound!!.x, numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        font?.draw(
+        fontGreen?.draw(
             game.sBatch,
             "More",
             numDiceBound!!.x + numDiceBound!!.width / 2,
             numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        font?.draw(
+        fontCyan?.draw(
             game.sBatch,
             Settings.numDice.toString(),
             numDiceBound!!.x + numDiceBound!!.width,
             numDiceBound!!.y + numDiceBound!!.height - 2f
         )
-        font?.draw(
+        fontWhite?.draw(
             game.sBatch,
             "Number of Coins",
             -300f + 2.5f,
             numCoinsBound!!.y + numCoinsBound!!.height - 2f
         )
-        font?.draw(
+        fontRed?.draw(
             game.sBatch, "Less", numCoinsBound!!.x, numCoinsBound!!.y + numCoinsBound!!.height - 2f
         )
-        font?.draw(
+        fontGreen?.draw(
             game.sBatch,
             "More",
             numCoinsBound!!.x + numCoinsBound!!.width / 2,
             numCoinsBound!!.y + numCoinsBound!!.height - 2f
         )
-        font?.draw(
+        fontCyan?.draw(
             game.sBatch,
             Settings.numCoin.toString(),
             numCoinsBound!!.x + numCoinsBound!!.width,
             numCoinsBound!!.y + numCoinsBound!!.height - 2f
         )
-        font?.draw(
+        fontWhite?.draw(
             game.sBatch,
             "Which random generator",
             -500f + 2.5f,
             randomBound!!.y + randomBound!!.height - 2f
         )
-        font?.draw(
+        fontRed?.draw(
             game.sBatch,
             "System_Default",
             randomBound!!.x,
             randomBound!!.y + randomBound!!.height - 2f
         )
-        font?.draw(
+        fontGreen?.draw(
             game.sBatch,
             "TravelingRNG",
             randomBound!!.x + randomBound!!.width / 2,
             randomBound!!.y + randomBound!!.height - 2f
         )
-        font?.draw(
+        fontCyan?.draw(
             game.sBatch,
             if (Settings.usingRand == 1) "System_Default" else "TravelingRNG",
             randomBound!!.x - 25f,
             randomBound!!.y + randomBound!!.height - 2f - 50f
         )
-        font?.draw(
+        fontCyan?.draw(
             game.sBatch,
             "Press 'K' to go back to Main Menu on any screen",
             -500f + 2.5f,
             randomBound!!.y - 100f
         )
-        font?.draw(
+        fontCyan?.draw(
             game.sBatch,
             "Press 'SPACE' for roll, flip, and draw actions",
             -500f + 2.5f,

@@ -16,17 +16,17 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController
 import kotlin.math.sqrt
 
 class CoinScreen(val game: Main) : Screen, AnimationListener {
-    var camera: PerspectiveCamera? = null
-    var environment: Environment? = null
-    var camController: CameraInputController? = null
+    private var camera: PerspectiveCamera? = null
+    private var environment: Environment? = null
+    private var camController: CameraInputController? = null
     var models: Model? = null
-    val instances: ArrayList<ModelInstance> = ArrayList()
-    val controllers: ArrayList<AnimationController> = ArrayList()
+    private val instances: ArrayList<ModelInstance> = ArrayList()
+    private val controllers: ArrayList<AnimationController> = ArrayList()
     var loading: Boolean = true
-    val coin: Coin = Coin()
-    var numCoins = 0
+    private val coin: Coin = Coin()
+    private var numCoins = 0
     var table : ModelInstance? = null
-    var time = 0f
+    private var time = 0f
 
     override fun show() {
         camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())

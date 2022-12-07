@@ -4,11 +4,11 @@ import java.lang.System.currentTimeMillis
 import kotlin.random.Random
 
 object SupRand {
-    var seed1 = currentTimeMillis().shl(1)
-    var seed2 = currentTimeMillis().ushr(32)
-    var seed3 = currentTimeMillis().inv()
-    var seed4 = currentTimeMillis().xor(362437)
-    var seed5 = Random(currentTimeMillis().inv()).nextLong()
+    private var seed1 = currentTimeMillis().shl(1)
+    private var seed2 = currentTimeMillis().ushr(32)
+    private var seed3 = currentTimeMillis().inv()
+    private var seed4 = currentTimeMillis().xor(362437)
+    private var seed5 = Random(currentTimeMillis().inv()).nextLong()
 
     fun getRand(a: Int, b: Int): Int {
         val t = seed5

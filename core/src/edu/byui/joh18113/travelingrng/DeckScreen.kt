@@ -14,17 +14,17 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController
 
 class DeckScreen(val game: Main) : Screen {
-    var camera: PerspectiveCamera? = null
-    var environment: Environment? = null
-    var camController: CameraInputController? = null
+    private var camera: PerspectiveCamera? = null
+    private var environment: Environment? = null
+    private var camController: CameraInputController? = null
     var models: Model? = null
-    val deckModel: ArrayList<ModelInstance> = ArrayList()
-    val instances: ArrayList<ModelInstance> = ArrayList()
+    private val deckModel: ArrayList<ModelInstance> = ArrayList()
+    private val instances: ArrayList<ModelInstance> = ArrayList()
     var table: ModelInstance? = null
-    val controllers: ArrayList<AnimationController> = ArrayList()
+    private val controllers: ArrayList<AnimationController> = ArrayList()
     var loading: Boolean = true
     val deck = Deck()
-    var time = 0f
+    private var time = 0f
 
     override fun show() {
         camera = PerspectiveCamera(67F, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())

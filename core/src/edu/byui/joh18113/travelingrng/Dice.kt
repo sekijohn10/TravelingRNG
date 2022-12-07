@@ -1,6 +1,6 @@
 package edu.byui.joh18113.travelingrng
 
 interface Dice {
-    fun roll() : String
+    fun roll(): String
     val sides: Int
 }

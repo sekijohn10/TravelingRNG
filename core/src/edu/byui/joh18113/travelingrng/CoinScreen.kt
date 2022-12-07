@@ -25,7 +25,7 @@ class CoinScreen(val game: Main) : Screen, AnimationListener {
     var loading: Boolean = true
     private val coin: Coin = Coin()
     private var numCoins = 0
-    var table : ModelInstance? = null
+    var table: ModelInstance? = null
     private var time = 0f
 
     override fun show() {

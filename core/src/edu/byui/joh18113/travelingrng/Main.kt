@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch
 
 class Main : Game() {
     var font: BitmapFont? = null
-    var mBatch : ModelBatch? = null
-    var sBatch : SpriteBatch? = null
+    var mBatch: ModelBatch? = null
+    var sBatch: SpriteBatch? = null
 
     override fun create() {
         font = BitmapFont()
